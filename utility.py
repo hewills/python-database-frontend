@@ -38,25 +38,20 @@ def create_tables():
     cursor = connection.cursor()
  
     # Drop the GEEK table if already exists.
-    cursor.execute("DROP TABLE IF EXISTS IDM_SETTINGS;")
-
-    sql_query = """SELECT name FROM sqlite_master WHERE type='table';"""
-    cursor.execute(sql_query)
-
-    print("\nList of Tables:\n")
-    print(cursor.fetchall(),"\n")
+    #cursor.execute("DROP TABLE IF EXISTS MODELS;")
  
     # Creating tables
     table = """ CREATE TABLE IF NOT EXISTS MODELS (
 	    modelid  INTEGER NOT NULL,
-	    instance VARCHAR(255) NOT NULL,
    	    modelname VARCHAR(255) NOT NULL,
+        modeldesc VARCHAR(255) NOT NULL,
 	    intf_modelid INTEGER,
 	    intf_fieldorder INTEGER,
 	    fieldorder INTEGER,
 	    fieldname VARCHAR(255),
 	    fieldtype VARCHAR(255),
-	    required VARCHAR(255)
+	    required VARCHAR(255),
+        keynum VARCHAR(255)
         ); """
 
     table2 = """ CREATE TABLE IF NOT EXISTS MODEL_ASSIGNMENTS (
@@ -80,21 +75,112 @@ def create_tables():
     cursor.execute(table2)
     cursor.execute(table3)
 
+    sql_query = """SELECT name FROM sqlite_master WHERE type='table';"""
+    cursor.execute(sql_query)
+
+    print("\nList of Tables:\n")
+    print(cursor.fetchall(),"\n")
+
     if connection:
         connection.close()
         print("the sqlite connection is closed")
 
-# -----End of create_tables() ------------------------
+# -----End of create_tables() -------------------------
+
+def load_tables():
+
+    connection = sqlite3.connect(DATABASE)
+    # cursor object
+    cursor = connection.cursor()
+    
+    # Queries to INSERT records.
+    #Insert into Settings
+    cursor.execute('''INSERT INTO SETTINGS VALUES ('abc', 'major', '/incoming/scholar/files','Majors','0','Y',NULL,'Y')''')
+    cursor.execute('''INSERT INTO SETTINGS VALUES ('abc', 'minor', '/incoming/scholar/files','Minors','1','Y',NULL,'Y')''')
+    cursor.execute('''INSERT INTO SETTINGS VALUES ('abc', 'work', '/incoming/files','Work Files','2',NULL,NULL,'Y')''')
+    cursor.execute('''INSERT INTO SETTINGS VALUES ('mac', 'degree', '/incoming/files','Degrees and More','1',NULL,NULL,NULL)''')
+    cursor.execute('''INSERT INTO SETTINGS VALUES ('mac', 'system', '/incoming/system/files','System Section','0','','Y','')''')
+    cursor.execute('''INSERT INTO SETTINGS VALUES ('loc', 'major', '/incoming/files','Majors Section','1','','Y','')''')
+    cursor.execute('''INSERT INTO SETTINGS VALUES ('loc', 'degree', '/incoming/files','Degrees','2','','','Y')''')
+    cursor.execute('''INSERT INTO SETTINGS VALUES ('xyz', 'grants', '/incoming/grants/files','Grants','2','','','Y')''')
+
+    #Insert into Model Assignments
+    cursor.execute('''INSERT INTO MODEL_ASSIGNMENTS VALUES ('abc', '5', 'major')''')
+    cursor.execute('''INSERT INTO MODEL_ASSIGNMENTS VALUES ('abc', '6', 'minor')''')
+    cursor.execute('''INSERT INTO MODEL_ASSIGNMENTS VALUES ('abc', '7', 'work')''')
+    cursor.execute('''INSERT INTO MODEL_ASSIGNMENTS VALUES ('mac', '8', 'degree')''')
+    cursor.execute('''INSERT INTO MODEL_ASSIGNMENTS VALUES ('mac', '9', 'system')''')
+    cursor.execute('''INSERT INTO MODEL_ASSIGNMENTS VALUES ('loc', '10', 'major')''')
+    cursor.execute('''INSERT INTO MODEL_ASSIGNMENTS VALUES ('loc', '11', 'degree')''')
+    cursor.execute('''INSERT INTO MODEL_ASSIGNMENTS VALUES ('xyz', '12', 'grants')''')
+
+    #Insert into Models
+    cursor.execute('''INSERT INTO MODELS VALUES (1,'Master','majorminor',1,1,1,'R_ID','STRING','Y','1')''')
+    cursor.execute('''INSERT INTO MODELS VALUES (1,'Master','majorminor',1,2,2,'EMP_ID','STRING','Y','2')''')
+    cursor.execute('''INSERT INTO MODELS VALUES (1,'Master','majorminor',1,3,3,'TITLE','STRING','',NULL)''')
+    cursor.execute('''INSERT INTO MODELS VALUES (1,'Master','majorminor',1,4,4,'STARTDATE','DATE','',NULL)''')
+    cursor.execute('''INSERT INTO MODELS VALUES (1,'Master','majorminor',1,5,5,'ENDDATE','DATE','','')''')
+
+    cursor.execute('''INSERT INTO MODELS VALUES (2,'Master','custom',1,1,1,'R_ID','STRING','Y','1')''')
+    cursor.execute('''INSERT INTO MODELS VALUES (2,'Master','custom',1,2,2,'EMP_ID','STRING','Y','2')''')
+    cursor.execute('''INSERT INTO MODELS VALUES (2,'Master','custom',1,3,3,'TITLE','STRING','',NULL)''')
+    cursor.execute('''INSERT INTO MODELS VALUES (2,'Master','custom',1,4,4,'STARTDATE','DATE','',NULL)''')
+    cursor.execute('''INSERT INTO MODELS VALUES (2,'Master','custom',1,5,5,'DESCRIPTION','STRING','Y','')''')
+
+    cursor.execute('''INSERT INTO MODELS VALUES (3,'Master','grants',1,1,1,'R_ID','STRING','Y','1')''')
+    cursor.execute('''INSERT INTO MODELS VALUES (3,'Master','grants',1,2,2,'EMP_ID','STRING','Y','2')''')
+    cursor.execute('''INSERT INTO MODELS VALUES (3,'Master','grants',1,3,3,'GRANT TITLE','STRING','',NULL)''')
+    cursor.execute('''INSERT INTO MODELS VALUES (3,'Master','grants',1,4,4,'AMOUNT','DATE','',NULL)''')
+    cursor.execute('''INSERT INTO MODELS VALUES (3,'Master','grants',1,5,5,'GRANT ID','STRING','Y','')''')
+    
+    # Display data inserted
+    print("\nData Inserted into the tables.")
+  
+    # Commit your changes in the database    
+    connection.commit()
+  
+    if connection:
+        connection.close()
+        print("The sqlite connection is closed")
+
+# --------- End of load_tables() -----------------------
+
+
+def view_data():
+
+    connection = sqlite3.connect(DATABASE)
+    # cursor object
+    cursor = connection.cursor()
+    
+    print("\nSETTINGS:\n")
+    data=cursor.execute('''SELECT * FROM SETTINGS''')
+    for row in data:
+        print(row)
+
+    print("\nMODEL_ASSIGNMENTS:\n")
+    data=cursor.execute('''SELECT * FROM MODEL_ASSIGNMENTS''')
+    for row in data:
+        print(row)
+
+    print("\nMODELS:\n")
+    data=cursor.execute('''SELECT * FROM MODELS''')
+    for row in data:
+        print(row)
+
+    if connection:
+        connection.close()
+        print("The sqlite connection is closed")
+
+# --------- End of view_data() -----------------------
+
+
 
 # Initialize Database --------------------------------
 
 #create_database(DATABASE)
 #create_tables()
-
-
-
-
-
+#load_tables()
+view_data()
 
 
 # Initialize Main Window -----------------------------

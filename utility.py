@@ -5,12 +5,37 @@ Description:
 A simple python application.
 
 '''
+import sqlite3
+
 from tkinter import *
 import tkinter as tk
 from tkinter.ttk import Combobox
 
+MODEL_TABLE = "models.db"
+
+# ======================================================
+
+def create_database():
+    # Initialize Database
+    # filename to form database
+    file = MODEL_TABLE
+
+    try:
+        conn = sqlite3.connect(file)
+        print("Database " + str(MODEL_TABLE) + " formed.")
+    except:
+        print("Database " + str(MODEL_TABLE) + " not formed.")
+
+# -----End of create_database() ------------------------
+
+
+
 # Initialize Main Window -------------------------------
  
+create_database()
+
+connection = sqlite3.connect(MODEL_TABLE)
+
 # Create window Tkinter
 window = tk.Tk()
 # Give window a title

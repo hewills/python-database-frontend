@@ -38,7 +38,13 @@ def create_tables():
     cursor = connection.cursor()
  
     # Drop the GEEK table if already exists.
-    #cursor.execute("DROP TABLE IF EXISTS MODELS")
+    cursor.execute("DROP TABLE IF EXISTS IDM_SETTINGS;")
+
+    sql_query = """SELECT name FROM sqlite_master WHERE type='table';"""
+    cursor.execute(sql_query)
+
+    print("\nList of Tables:\n")
+    print(cursor.fetchall(),"\n")
  
     # Creating tables
     table = """ CREATE TABLE IF NOT EXISTS MODELS (
@@ -59,7 +65,7 @@ def create_tables():
 	    sectiontype VARCHAR(255) NOT NULL
         ); """
 
-    table3 = """ CREATE TABLE IF NOT EXISTS IDM_SETTINGS (
+    table3 = """ CREATE TABLE IF NOT EXISTS SETTINGS (
 	    instance VARCHAR(255) NOT NULL,
    	    sectiontype VARCHAR(255) NOT NULL,
 	    incoming_path VARCHAR(255),
@@ -81,8 +87,15 @@ def create_tables():
 # -----End of create_tables() ------------------------
 
 # Initialize Database --------------------------------
-create_database(DATABASE)
-create_tables()
+
+#create_database(DATABASE)
+#create_tables()
+
+
+
+
+
+
 
 # Initialize Main Window -----------------------------
 

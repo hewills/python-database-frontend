@@ -11,20 +11,20 @@ from tkinter import *
 import tkinter as tk
 from tkinter.ttk import Combobox
 
-MODEL_TABLE = "models.db"
+DATABASE = "DATAMACHINE.db"
 
 # ======================================================
 
-def create_database():
+def create_database(dbtable):
     # Initialize Database
     # filename to form database
-    file = MODEL_TABLE
+    file = dbtable
 
     try:
         conn = sqlite3.connect(file)
-        print("Database " + str(MODEL_TABLE) + " formed.")
+        print("Database " + str(dbtable) + " formed.")
     except:
-        print("Database " + str(MODEL_TABLE) + " not formed.")
+        print("Database " + str(dbtable) + " not formed.")
 
 # -----End of create_database() ------------------------
 
@@ -32,9 +32,36 @@ def create_database():
 
 # Initialize Main Window -------------------------------
  
-create_database()
+create_database(DATABASE)
 
-connection = sqlite3.connect(MODEL_TABLE)
+connection = sqlite3.connect(DATABASE)
+# cursor object
+cursor = connection.cursor()
+ 
+# Drop the GEEK table if already exists.
+#cursor.execute("DROP TABLE IF EXISTS MODELS")
+ 
+# Creating table
+table = """ CREATE TABLE IF NOT EXISTS MODELS (
+	modelid  INTEGER NOT NULL,
+	instance VARCHAR(255) NOT NULL,
+   	modelname VARCHAR(255) NOT NULL,
+	intf_modelid INTEGER,
+	intf_fieldorder INTEGER,
+	fieldorder INTEGER,
+	fieldname VARCHAR(255),
+	fieldtype VARCHAR(255),
+	required VARCHAR(255)
+    ); """
+ 
+cursor.execute(table)
+
+
+
+
+if connection:
+    connection.close()
+    print("the sqlite connection is closed")
 
 # Create window Tkinter
 window = tk.Tk()

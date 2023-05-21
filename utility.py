@@ -29,39 +29,62 @@ def create_database(dbtable):
 # -----End of create_database() ------------------------
 
 
+# ======================================================
 
-# Initialize Main Window -------------------------------
+def create_tables():
+
+    connection = sqlite3.connect(DATABASE)
+    # cursor object
+    cursor = connection.cursor()
  
+    # Drop the GEEK table if already exists.
+    #cursor.execute("DROP TABLE IF EXISTS MODELS")
+ 
+    # Creating tables
+    table = """ CREATE TABLE IF NOT EXISTS MODELS (
+	    modelid  INTEGER NOT NULL,
+	    instance VARCHAR(255) NOT NULL,
+   	    modelname VARCHAR(255) NOT NULL,
+	    intf_modelid INTEGER,
+	    intf_fieldorder INTEGER,
+	    fieldorder INTEGER,
+	    fieldname VARCHAR(255),
+	    fieldtype VARCHAR(255),
+	    required VARCHAR(255)
+        ); """
+
+    table2 = """ CREATE TABLE IF NOT EXISTS MODEL_ASSIGNMENTS (
+	    instance VARCHAR(255) NOT NULL,
+   	    modelid INTEGER NOT NULL,
+	    sectiontype VARCHAR(255) NOT NULL
+        ); """
+
+    table3 = """ CREATE TABLE IF NOT EXISTS IDM_SETTINGS (
+	    instance VARCHAR(255) NOT NULL,
+   	    sectiontype VARCHAR(255) NOT NULL,
+	    incoming_path VARCHAR(255),
+	    sectionname VARCHAR(255),
+        lockflag VARCHAR(10),
+        scholarly VARCHAR(10),
+        custom VARCHAR(10),
+        check_header VARCHAR(10)
+        ); """
+ 
+    cursor.execute(table)
+    cursor.execute(table2)
+    cursor.execute(table3)
+
+    if connection:
+        connection.close()
+        print("the sqlite connection is closed")
+
+# -----End of create_tables() ------------------------
+
+# Initialize Database --------------------------------
 create_database(DATABASE)
+create_tables()
 
-connection = sqlite3.connect(DATABASE)
-# cursor object
-cursor = connection.cursor()
- 
-# Drop the GEEK table if already exists.
-#cursor.execute("DROP TABLE IF EXISTS MODELS")
- 
-# Creating table
-table = """ CREATE TABLE IF NOT EXISTS MODELS (
-	modelid  INTEGER NOT NULL,
-	instance VARCHAR(255) NOT NULL,
-   	modelname VARCHAR(255) NOT NULL,
-	intf_modelid INTEGER,
-	intf_fieldorder INTEGER,
-	fieldorder INTEGER,
-	fieldname VARCHAR(255),
-	fieldtype VARCHAR(255),
-	required VARCHAR(255)
-    ); """
- 
-cursor.execute(table)
-
-
-
-
-if connection:
-    connection.close()
-    print("the sqlite connection is closed")
+# Initialize Main Window -----------------------------
 
 # Create window Tkinter
 window = tk.Tk()

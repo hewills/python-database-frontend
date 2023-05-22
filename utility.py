@@ -195,10 +195,25 @@ window.geometry("1200x700")
 #window.attributes('-fullscreen', True)
 
 # Window Title
-newlabel = tk.Label(text = "MODEL SETUP")
-newlabel.place(x=50,y=20)
+newlabel = tk.Label(text = "SELECT INSTANCE")
+newlabel.place(x=500,y=20)
 # -----------------------------------------------------
 
+# Selector Combo Box
+var = StringVar()
+var.set("")
+data=("","abc", "loc", "mac", "xyc")
+cb=Combobox(window, values=data)
+cb.place(x=500, y=75)
+
+# Selector Button
+btn=Button(window, text="       OK       ", fg='blue').place(x=660, y=70)
+
+
+
+# -----------------------------------------------------
+#  SAMPLE CODE BELOW
+# -----------------------------------------------------
 # Textbox
 newlabel = tk.Label(text = "Select Database").place(x=50,y=50)
 txtfld=Entry(window, text=" dbid ", bd=5)  #bd = Border

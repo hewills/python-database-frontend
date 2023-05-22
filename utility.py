@@ -253,7 +253,7 @@ C1.place(x=50, y=520)
 C2.place(x=50, y=540)
 
 # Quit button
-btn=Button(window, text="       Quit       ", fg='blue').place(x=20, y=650)
+btn=Button(window, text="       Quit       ", fg='blue',command = window.destroy).place(x=20, y=650)
 
 
 window.mainloop()

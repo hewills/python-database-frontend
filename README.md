@@ -1,4 +1,6 @@
-# simple-python-app
+# python-database-frontend
+
+Python Database GUI Front-end
 
 **Requires:**   
 Python3+   

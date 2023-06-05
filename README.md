@@ -4,9 +4,8 @@ Python Database GUI Front-end
 
 **Requires:**   
 Python3+   
-Sqllite3+   
-pip3 install sqlite3   
-pip3 install tkinter   
+Sqlite3+   
+pip3 install tk   
 pip3 install matplotlib   
 pip3 install numpy   
 
